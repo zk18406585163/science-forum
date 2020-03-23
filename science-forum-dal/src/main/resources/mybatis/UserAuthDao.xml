@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.nuc.scienceforum.dal.dao.UserAuthDao">
+
+    <resultMap id="userAuthResult" type="com.nuc.scienceforum.dal.po.UserAuthDo">
+        <id property="id" column="id" javaType="long" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" javaType="Long" jdbcType="BIGINT" />
+        <result property="username" column="username" javaType="String" jdbcType="VARCHAR"/>
+        <result property="password" column="password" javaType="String" jdbcType="VARCHAR" />
+        <result property="phone" column="phone" javaType="String" jdbcType="VARCHAR" />
+        <result property="email" column="email" javaType="String" jdbcType="VARCHAR" />
+        <result property="createAt" column="create_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+        <result property="updateAt" column="update_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="table">
+        user_auth
+    </sql>
+
+    <sql id="all_column">
+        id, user_id, username, password, phone, email, create_at, update_at
+    </sql>
+
+    <select id="selectUserAuthByCondition" resultMap="userAuthResult">
+        SELECT
+            <include refid="all_column"></include>
+        FROM
+            <include refid="table"></include>
+        WHERE
+            is_deleted=0
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="username != null and username != ''">and username = #{username}</if>
+            <if test="phone != null and phone != ''">and phone = #{phone}</if>
+            <if test="email != null and email != ''">and email = #{email}</if>
+    </select>
+
+</mapper>
